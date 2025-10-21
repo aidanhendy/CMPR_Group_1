@@ -1,10 +1,6 @@
-#include<iostream>
-
-
+#include "Participant.h"
 
 int main()
 {
-
-
-	return 0;
+   *Participant =  new Participant[numOfParticipants];
 }
