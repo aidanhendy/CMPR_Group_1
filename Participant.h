@@ -9,9 +9,10 @@ private:
     string name;
     int number;
 public:
-    Participant(int, string, int);
+    Participant(int mile, string name, int num);
     void displayInfo();
-    string bestRunner();
+    static void readFile(string file); //read function
+    static string bestRunner(string file); //function to find best runner
 };
 
 
