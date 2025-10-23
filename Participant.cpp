@@ -33,7 +33,8 @@ int Participant::getNumber() const {
 }
 
 int Participant::numOfParticipants(const string file) {
-    ifstream inFile(file);
+    ifstream inFile;
+    inFile.open(file);
     string line;
     int count = 0;
     while (getline(inFile, line))
@@ -47,12 +48,50 @@ int Participant::numOfParticipants(const string file) {
     return count;
 }
 
-void Participant::readFile(const string& file, Participant participants[], int& count)
+void Participant::readFile(const string& file, int& count, const Participant participants[])
 {
+    int numberOfPeople = numOfParticipants(file);
+    ifstream inFile;
+    inFile.open(file);
+    Participant runs[numberOfPeople];
+    int num;
+    string name;
+    double distances[6];
+
+    /*
+    for(int i = 0; i < numberOfPeople; i++)
+    {
+        runs[i] = 
+    }
+    */
+
+    while(inFile >> num >> name)
+    {
+        
+        for(int i = 0; i < 6; i++)
+        {
+            inFile >> distances[i];
+        }
+        runs[numberOfPeople] = Participant(num, name, distances);
+        count++;
+    }
+    inFile.close();
 
 }
 
-string bestRunner(const Participant participants[], int count)
+string Participant:: bestRunner(const string& file, const Participant participants[], int count)
 {
+    int numberOfPeople = numOfParticipants(file);
 
+    double bestMilage = participants[0].getTotalMileage();
+    string bestRunner = participants[0].getName();
+    for(int i = 1; i < numberOfPeople; i++)
+    {   
+         if(participants[i].getTotalMileage() > bestMilage)
+         {
+            bestMilage = participants[i].getTotalMileage();
+            bestRunner = participants[i].getName();
+         }
+    }
+    return bestRunner;
 }
