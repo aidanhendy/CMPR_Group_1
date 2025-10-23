@@ -12,7 +12,7 @@ int main()
 	cout << "Calculating best runner.\n";
 
 	cout << "Displaying the best runner\n";
-	cout << Participant::bestRunner();
+	cout << Participant::bestRunner()\n;
 
 	cout << "Displaying the remaining data\n";
 	Participant::displayInfo();
