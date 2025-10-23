@@ -1,13 +1,14 @@
 #include "Participant.h"
 #include <fstream>
 #include <string>
-
+const int NEIGHBORHOODS = 6;
 Participant::Participant() {
     number = 0;
-    name = "";
+    firstName = "";
+    lastName ="";
     totalMileage = 0.0;
     for (int i = 0; i < 6; i++)
-        runsArray[i].distance = 0.0;
+        runs[i] = 0.0;
 }
 
 Participant::Participant(int num, string name, double distances[6]) {
@@ -15,8 +16,27 @@ Participant::Participant(int num, string name, double distances[6]) {
     name = name;
     totalMileage = 0.0;
     for (int i = 0; i < 6; i++) {
-        runsArray[i].distance = distances[i];
+        runs[i] = distances[i];
         totalMileage += distances[i];
+    }
+}
+int Participant:: setNumber(int num)
+{
+    number = num;
+}
+int Participant:: setFirstName(string name)
+{
+    firstName = name;
+}
+int Participant:: setFirstName(string name)
+{
+    lastName = name;
+}
+int Participant:: setRuns(double arr[])
+{
+    for (int i = 0; i < NEIGHBORHOODS; i++)
+    {
+        runs[i] = arr[i];
     }
 }
 
@@ -25,7 +45,7 @@ double Participant::getTotalMileage() const {
 }
 
 string Participant::getName() const {
-    return name;
+    return firstName + " " + lastName;
 }
 
 int Participant::getNumber() const {
@@ -45,17 +65,21 @@ int Participant::numOfParticipants(const string file) {
         }
     } 
     inFile.close();
-    return count;
+    return count; //num of partipants
 }
 
-void Participant::readFile(const string& file, int& count, const Participant participants[])
+
+
+void Participant::readFile(const string& file)
 {
     int numberOfPeople = numOfParticipants(file);
     ifstream inFile;
     inFile.open(file);
-    Participant runs[numberOfPeople];
+
+    Participant participants[numberOfPeople];
     int num;
-    string name;
+    string firstName;
+    string lastName;
     double distances[6];
 
     /*
@@ -64,22 +88,36 @@ void Participant::readFile(const string& file, int& count, const Participant par
         runs[i] = 
     }
     */
-
-    while(inFile >> num >> name)
+    string word;
+    while(inFile >> word)
     {
-        
-        for(int i = 0; i < 6; i++)
+        num = stoi(word);
+        inFile >> word;
+        firstName = word;
+        inFile >> word;
+        lastName = word;
+    
+        for (int i = 0; i < NEIGHBORHOODS; i++ )
         {
-            inFile >> distances[i];
+            inFile >> word;
+            distances[i] = stoi(word);
         }
-        runs[numberOfPeople] = Participant(num, name, distances);
-        count++;
+        for (int i = 0; i < numberOfPeople; i ++)
+        {
+            participants[i].setNumber(num);
+            participants[i].setFirstName(firstName);
+            participants[i].setLastName(lastName);
+            participants[i].setRuns(distances);
+        }
+
+        
+        numberOfPeople++;
     }
     inFile.close();
 
 }
 
-string Participant:: bestRunner(const string& file, const Participant participants[], int count)
+string Participant:: bestRunner(const string& file, const Participant participants[])
 {
     int numberOfPeople = numOfParticipants(file);
 
