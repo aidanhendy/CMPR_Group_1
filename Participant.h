@@ -1,44 +1,31 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <fstream>
 using namespace std;
 
-
 class Participant {
 private:
-
-    struct runs
-    {
-        string neighborhood;
+    struct Run {
+        string neighborhood; // optional if needed
         double distance;
     };
-    
 
-    double totalMilage;
-    string name;
     int number;
-    runs* runsArray;
-    const int CAP = 6; //for array
-    int noe; //number of entries
-    
+    string name;
+    Run runsArray[6];
+    double totalMileage;
 
-    
 public:
-
-    
     Participant();
+    Participant(int num, string name, double distances[6]);
+    double getTotalMileage() const;
+    string getName() const;
+    int getNumber() const;
+    void displayInfo() const;
 
-    //big 3
-    ~Participant();
-    Participant(); //copy constructor
-    Participant& operator=(const Participant& par); // overloaded = operator
-
-    //everything else
-    static int numOfParticipants(string file); //Counts number of participants.
-    static void readFile(string file); //read function
-    static void readLine(string line); // read individual line
-    static string bestRunner(string file); //function to find best runner
-    void displayInfo();
+    // static helper functions
+    static int numOfParticipants(const string file);
+    static void readFile(const string& file, Participant participants[], int& count);
+    static string bestRunner(const Participant participants[], int count);
 };
-
-
